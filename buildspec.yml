@@ -1,0 +1,23 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_ACCOUNT_ID: 791142783650
+    # note, the "deploy" aws region can be different
+    # than the "build" aws region. that is, we could
+    # build the docker image in us-east-1, but then
+    # push the docker image to us-west-2
+    DEPLOY_AWS_REGION: us-west-2
+
+phases:
+  pre_build:
+    commands:
+      # set this in pre_build.sh
+      - export PACKAGE_PATH=""
+      - export GET_PIP_PATH=""
+      # use '.' notation so the script runs in the current shell. that
+      # way PACKAGE_PATH gets set
+      - . ./scripts/pre_build.sh
+  build:
+    commands:
+      - /bin/bash scripts/build.sh simple-docker-repo latest
